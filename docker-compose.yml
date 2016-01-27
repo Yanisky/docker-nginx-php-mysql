@@ -1,0 +1,23 @@
+nginx:
+  image: nginx
+  container_name: container_nginx
+  ports:
+    - "80:80"
+  volumes:
+    - ./config/nginx/nginx.conf:/etc/nginx/nginx.conf
+    - ./config/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+  volumes_from:
+    - php
+php:
+  build: ./images/php/
+  container_name: container_php
+  volumes:
+    - ./www:/var/www/html
+    - ./config/php/php.ini:/usr/local/etc/php/php.ini
+mysql:
+  image: mysql
+  container_name: container_mysql
+  environment:
+    MYSQL_ROOT_PASSWORD: root
+  volumes:
+    - ./storage/mysql/db:/var/lib/mysql
